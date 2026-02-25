@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Rental Application</title>
+    <meta name="description" content="A beautiful and seamless rental application form.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css?v=2">
+</head>
+
+<body>
+    <div class="app-container">
+        <main class="form-wrapper">
+            <header>
+                <div class="logo-placeholder">🏢</div>
+                <h1>Rental Application</h1>
+                <p>Please provide your details below to apply.</p>
+            </header>
+
+            <div class="stepper">
+                <div class="step active" data-step="1">Tenant info</div>
+                <div class="step" data-step="2">Employment</div>
+                <div class="step" data-step="3">History</div>
+                <div class="step" data-step="4">Credit</div>
+                <div class="step" data-step="5">Authorization</div>
+            </div>
+
+            <form id="rentalApplication" novalidate>
+                <!-- Step 1: Tenant Information -->
+                <div class="form-step active" id="step1">
+                    <h2>Tenant Information</h2>
+                    <p class="section-desc">Please provide detailed applicant information.</p>
+
+                    <h3 class="subsection-title">Applicant Details</h3>
+                    <div class="grid-2-col">
+                        <div class="input-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" required placeholder="E.g. Jane Doe">
+                        </div>
+                        <div class="input-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="ssn">Social Security No</label>
+                            <input type="text" id="ssn" required placeholder="XXX-XX-XXXX">
+                        </div>
+                        <div class="input-group">
+                            <label for="driversLicense">Drivers License No</label>
+                            <input type="text" id="driversLicense" required placeholder="12345678">
+                        </div>
+                        <div class="input-group">
+                            <label for="state">State</label>
+                            <input type="text" id="state" required placeholder="NY">
+                        </div>
+                    </div>
+
+                    <h3 class="subsection-title">Contact Information</h3>
+                    <div class="grid-2-col">
+                        <div class="input-group">
+                            <label for="homePhone">Home Phone</label>
+                            <input type="tel" id="homePhone" placeholder="(555) 123-4567">
+                        </div>
+                        <div class="input-group">
+                            <label for="workPhone">Work Phone</label>
+                            <input type="tel" id="workPhone" placeholder="(555) 987-6543">
+                        </div>
+                        <div class="input-group">
+                            <label for="cellPhone">Cell Phone</label>
+                            <input type="tel" id="cellPhone" required placeholder="(555) 555-5555">
+                        </div>
+                        <div class="input-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" required placeholder="jane@example.com">
+                        </div>
+                    </div>
+
+                    <h3 class="subsection-title">Co-Applicant Details</h3>
+                    <div class="grid-2-col">
+                        <div class="input-group" style="grid-column: 1 / -1;">
+                            <label for="coApplicantName">Co-Applicant Name (Optional)</label>
+                            <input type="text" id="coApplicantName" placeholder="John Doe">
+                        </div>
+                        <div class="input-group">
+                            <label for="coApplicantDob">Co-Applicant Date of Birth</label>
+                            <input type="date" id="coApplicantDob">
+                        </div>
+                        <div class="input-group">
+                            <label for="coApplicantSsn">Co-Applicant SSN</label>
+                            <input type="text" id="coApplicantSsn" placeholder="XXX-XX-XXXX">
+                        </div>
+                    </div>
+
+                    <h3 class="subsection-title">Occupants & Pets</h3>
+                    <div class="input-group">
+                        <label for="occupants">Names and Ages of everyone who will live in the residence</label>
+                        <textarea id="occupants" required rows="2"
+                            placeholder="e.g. Jane Doe (30), John Doe (32)"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="pets">List all pets</label>
+                        <textarea id="pets" rows="2" placeholder="e.g. 1 Dog (Labrador), 1 Cat"></textarea>
+                    </div>
+
+                    <h3 class="subsection-title">Vehicle Information</h3>
+                    <div class="grid-2-col">
+                        <div class="input-group">
+                            <label for="vehicleMake">Vehicle Make/Model</label>
+                            <input type="text" id="vehicleMake" placeholder="Toyota Camry">
+                        </div>
+                        <div class="input-group">
+                            <label for="vehicleYear">Year</label>
+                            <input type="text" id="vehicleYear" placeholder="2020">
+                        </div>
+                        <div class="input-group" style="grid-column: 1 / -1;">
+                            <label for="vehicleLicense">License/State</label>
+                            <input type="text" id="vehicleLicense" placeholder="ABC-123 / NY">
+                        </div>
+                    </div>
+
+                    <div class="form-actions right">
+                        <button type="button" class="btn-primary next-btn">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Employment -->
+                <div class="form-step" id="step2">
+                    <h2>Employment Information</h2>
+                    <p class="section-desc">Please provide your current employment details.</p>
+
+                    <div class="grid-2-col">
+                        <div class="input-group">
+                            <label for="empStatus">Employment Status</label>
+                            <select id="empStatus" required>
+                                <option value="" disabled selected>Select Status</option>
+                                <option value="Full Time">Full Time</option>
+                                <option value="Part Time">Part Time</option>
+                                <option value="Student">Student</option>
+                                <option value="Unemployed">Unemployed</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="employer">Employer Name</label>
+                            <input type="text" id="employer" required placeholder="Company Name Inc.">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="employerAddress">Employer Address</label>
+                        <input type="text" id="employerAddress" required placeholder="123 Business Rd, City, State">
+                    </div>
+
+                    <div class="grid-2-col">
+                        <div class="input-group">
+                            <label for="jobTitle">Job Title</label>
+                            <input type="text" id="jobTitle" required placeholder="Software Engineer">
+                        </div>
+                        <div class="input-group">
+                            <label for="datesEmployed">Dates Employed</label>
+                            <input type="text" id="datesEmployed" required placeholder="MM/YYYY - Present">
+                        </div>
+                    </div>
+
+                    <div class="grid-2-col">
+                        <div class="input-group">
+                            <label for="supervisorName">Supervisor Name</label>
+                            <input type="text" id="supervisorName" required placeholder="Jane Smith">
+                        </div>
+                        <div class="input-group">
+                            <label for="supervisorPhone">Supervisor Phone</label>
+                            <input type="tel" id="supervisorPhone" required placeholder="(555) 123-4567">
+                        </div>
+                    </div>
+
+                    <div class="input-group" style="grid-column: 1 / -1; max-width: 48%;">
+                        <label for="monthlyPay">Monthly Pay ($)</label>
+                        <input type="number" id="monthlyPay" required placeholder="5000">
+                    </div>
+
+                    <div class="form-actions row">
+                        <button type="button" class="btn-secondary prev-btn">Back</button>
+                        <button type="button" class="btn-primary next-btn">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Residential History -->
+                <div class="form-step" id="step3">
+                    <h2>Residential History</h2>
+                    <p class="section-desc">Details about your current and previous residences.</p>
+
+                    <div id="residencesContainer">
+                        <!-- Current Residence -->
+                        <div class="residence-block">
+                            <h3 class="subsection-title">Current Address</h3>
+                            <div class="input-group">
+                                <label for="currentAddress">Current Address</label>
+                                <textarea id="currentAddress" required
+                                    placeholder="123 Main St, Apt 4B&#10;City, State, ZIP" rows="2"></textarea>
+                            </div>
+
+                            <div class="grid-2-col">
+                                <div class="input-group">
+                                    <label for="moveInDate">Move In Date</label>
+                                    <input type="date" id="moveInDate" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="rentAmount">Rent ($)</label>
+                                    <input type="number" id="rentAmount" required placeholder="1500">
+                                </div>
+                            </div>
+
+                            <div class="grid-2-col">
+                                <div class="input-group">
+                                    <label for="ownerAgent">Owner/Agent</label>
+                                    <input type="text" id="ownerAgent" required placeholder="John Smith">
+                                </div>
+                                <div class="input-group">
+                                    <label for="ownerPhone">Phone</label>
+                                    <input type="tel" id="ownerPhone" required placeholder="(555) 987-6543">
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="reasonLeaving">Reason for Leaving</label>
+                                <input type="text" id="reasonLeaving" required placeholder="Need more space">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions row" style="margin-top: 1rem;">
+                        <button type="button" id="addResidenceBtn" class="btn-secondary" style="width: 100%;">+ Add
+                            previous residence (up to 3 years)</button>
+                    </div>
+
+                    <div class="form-actions row">
+                        <button type="button" class="btn-secondary prev-btn">Back</button>
+                        <button type="button" class="btn-primary next-btn">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Credit History -->
+                <div class="form-step" id="step4">
+                    <h2>Credit History</h2>
+                    <p class="section-desc">Please answer the following questions honestly. Yes answers will not
+                        automatically disqualify you.</p>
+
+                    <div class="radio-group row-question">
+                        <p>Have you ever filed bankruptcy?</p>
+                        <div class="radio-options">
+                            <input type="radio" id="bankruptYes" name="bankruptcy" value="Yes" required>
+                            <label for="bankruptYes">Yes</label>
+
+                            <input type="radio" id="bankruptNo" name="bankruptcy" value="No" required>
+                            <label for="bankruptNo">No</label>
+                        </div>
+                    </div>
+
+                    <div class="radio-group row-question">
+                        <p>Have you ever been evicted from a rental residence?</p>
+                        <div class="radio-options">
+                            <input type="radio" id="evictedYes" name="evicted" value="Yes" required>
+                            <label for="evictedYes">Yes</label>
+
+                            <input type="radio" id="evictedNo" name="evicted" value="No" required>
+                            <label for="evictedNo">No</label>
+                        </div>
+                    </div>
+
+                    <div class="radio-group row-question">
+                        <p>Are you a party to any lawsuits?</p>
+                        <div class="radio-options">
+                            <input type="radio" id="lawsuitYes" name="lawsuits" value="Yes" required>
+                            <label for="lawsuitYes">Yes</label>
+
+                            <input type="radio" id="lawsuitNo" name="lawsuits" value="No" required>
+                            <label for="lawsuitNo">No</label>
+                        </div>
+                    </div>
+
+                    <div class="radio-group row-question">
+                        <p>Have you had any late rental payments in the last year?</p>
+                        <div class="radio-options">
+                            <input type="radio" id="latePayYes" name="late_payments" value="Yes" required>
+                            <label for="latePayYes">Yes</label>
+
+                            <input type="radio" id="latePayNo" name="late_payments" value="No" required>
+                            <label for="latePayNo">No</label>
+                        </div>
+                    </div>
+
+                    <div class="radio-group row-question">
+                        <p>Are there any judgments against you?</p>
+                        <div class="radio-options">
+                            <input type="radio" id="judgmentYes" name="judgments" value="Yes" required>
+                            <label for="judgmentYes">Yes</label>
+
+                            <input type="radio" id="judgmentNo" name="judgments" value="No" required>
+                            <label for="judgmentNo">No</label>
+                        </div>
+                    </div>
+
+                    <div class="input-group" id="creditExplanationGroup" style="display: none;">
+                        <label for="creditExplanation">If you answered yes to any of the above questions, please
+                            explain:</label>
+                        <textarea id="creditExplanation" rows="3" placeholder="Provide details here..."></textarea>
+                    </div>
+
+                    <div class="acknowledgement-block">
+                        <p class="legal-text">
+                            By my signature below, I represent that all of the information that I have disclosed in this
+                            Arkansas Rental Application is true, accurate, and complete. I acknowledge that all of the
+                            information I have disclosed is material and Landlord is relying on the information to
+                            decide whether to grant or deny this Application.
+                        </p>
+                        <div class="grid-2-col" style="margin-top: 1rem;">
+                            <div class="input-group">
+                                <label for="applicantSignature">Applicant Signature (Type Name)</label>
+                                <input type="text" id="applicantSignature" required placeholder="Jane Doe">
+                            </div>
+                            <div class="input-group">
+                                <label for="signatureDate">Date</label>
+                                <input type="date" id="signatureDate" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions row" style="margin-top: 1.5rem;">
+                        <button type="button" class="btn-secondary prev-btn">Back</button>
+                        <button type="button" class="btn-primary next-btn">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 5: Authorization -->
+                <div class="form-step" id="step5">
+                    <h2>Authorization</h2>
+                    <p class="section-desc">Please review the following authorization agreement.</p>
+
+                    <div class="acknowledgement-block" style="margin-top: 0; padding-top: 0; border-top: none;">
+                        <p class="legal-text" style="font-size: 0.95rem; margin-bottom: 1.5rem;">
+                            I authorize Landlord to order and review my credit and criminal history and
+                            investigate the accuracy of all information contained in this Arkansas Rental
+                            Application. I further authorize all banks, employers, and creditors to provide
+                            Landlord any and all information concerning my credit.
+                        </p>
+
+                        <div class="grid-2-col" style="margin-top: 1.5rem;">
+                            <div class="input-group">
+                                <label for="authApplicantSignature">Applicant Signature (Type Name)</label>
+                                <input type="text" id="authApplicantSignature" required placeholder="Jane Doe">
+                            </div>
+                            <div class="input-group">
+                                <label for="authApplicantDate">Date</label>
+                                <input type="date" id="authApplicantDate" required>
+                            </div>
+                        </div>
+
+                        <div class="grid-2-col" style="margin-top: 1rem;">
+                            <div class="input-group">
+                                <label for="authCoApplicantSignature">Co-Applicant Signature</label>
+                                <input type="text" id="authCoApplicantSignature" placeholder="John Doe">
+                            </div>
+                            <div class="input-group">
+                                <label for="authCoApplicantDate">Date</label>
+                                <input type="date" id="authCoApplicantDate">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group" style="margin-top: 2rem;">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I verify that all provided information is accurate and agree to the
+                            authorization above.</label>
+                    </div>
+
+                    <div class="form-actions row" style="margin-top: 2rem;">
+                        <button type="button" class="btn-secondary prev-btn">Back</button>
+                        <button type="submit" class="btn-primary submit-btn">Submit Application</button>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <div class="form-step" id="successStep">
+                    <div class="success-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h2>Application Submitted!</h2>
+                    <p>Thank you for applying. We will review your details and get back to you shortly.</p>
+                </div>
+            </form>
+        </main>
+    </div>
+    <script src="app.js?v=2"></script>
+</body>
+
+</html>
