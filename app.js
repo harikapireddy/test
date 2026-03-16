@@ -56,6 +56,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 input.parentElement.classList.remove('error');
+
+                // Custom validation for Date of Birth
+                if ((input.id === 'dob' || input.id === 'coApplicantDob') && input.value) {
+                    const dateStr = input.value;
+                    let valid = true;
+                    let customMsg = 'Please enter a valid Date of Birth';
+                    
+                    if (!/^\d{2}-\d{2}-\d{4}$/.test(dateStr)) {
+                        valid = false;
+                        customMsg = 'Format must be mm-dd-yyyy';
+                    } else {
+                        const [mm, dd, yyyy] = dateStr.split('-').map(Number);
+                        const daysInMonth = new Date(yyyy, mm, 0).getDate();
+                        const currentYear = new Date().getFullYear();
+                        
+                        if (mm < 1 || mm > 12 || dd < 1 || dd > daysInMonth) {
+                            valid = false;
+                        } else if (yyyy < 1900) {
+                            valid = false;
+                            customMsg = 'Year must be 1900 or later';
+                        } else if (yyyy > currentYear || (yyyy === currentYear && new Date() < new Date(yyyy, mm - 1, dd))) {
+                            valid = false;
+                            customMsg = 'Date of birth cannot be in the future';
+                        }
+                    }
+                    
+                    if (!valid) {
+                        input.setCustomValidity(customMsg);
+                    } else {
+                        input.setCustomValidity('');
+                    }
+                }
+
                 if (!input.checkValidity()) {
                     isValid = false;
                     input.parentElement.classList.add('error');
@@ -71,6 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     } else if (input.validity.typeMismatch) {
                         errorMsg.textContent = 'Invalid format';
+                    } else if (input.validity.customError) {
+                        errorMsg.textContent = input.validationMessage;
                     } else {
                         errorMsg.textContent = 'Invalid input';
                     }
@@ -139,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const label = el.parentElement.querySelector('label');
                         key = label ? label.textContent.trim() : 'field_' + index;
                     }
-                    data[key] = el.value;
+                    data[key] = el.dataset.raw || el.value;
                 });
                 return data;
             };
@@ -243,6 +278,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function attachValidationListeners(elements) {
         elements.forEach(input => {
             input.addEventListener('input', function () {
+                this.setCustomValidity(''); // Clear custom validation on input
+                
                 if (this.type === 'radio') {
                     const questionEl = this.closest('.row-question');
                     if (questionEl) {
@@ -286,4 +323,102 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // --- SSN Masking Logic ---
+    function setupSSNField(inputId) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        
+        let rawValue = '';
+        
+        input.addEventListener('input', function(e) {
+            if (!this.value.includes('*')) {
+                rawValue = this.value.replace(/\D/g, '').substring(0, 9);
+            } else {
+                let currentVal = this.value;
+                let onlyDigitsAndStars = currentVal.replace(/[^\d*]/g, '');
+                
+                let newRaw = '';
+                let starCount = 0;
+                for (let i = 0; i < onlyDigitsAndStars.length; i++) {
+                    if (onlyDigitsAndStars[i] === '*') {
+                        if (starCount < rawValue.length) {
+                            newRaw += rawValue[starCount];
+                        }
+                        starCount++;
+                    } else if (/\d/.test(onlyDigitsAndStars[i])) {
+                        newRaw += onlyDigitsAndStars[i];
+                        starCount++;
+                    }
+                }
+                rawValue = newRaw.substring(0, 9);
+            }
+            
+            this.dataset.raw = rawValue;
+            
+            let formatted = '';
+            if (rawValue.length > 0) {
+                let first = rawValue.substring(0, 3).replace(/\d/g, '*');
+                let second = rawValue.substring(3, 5).replace(/\d/g, '*');
+                let third = rawValue.substring(5, 9);
+                
+                if (rawValue.length > 5) {
+                    formatted = `${first}-${second}-${third}`;
+                } else if (rawValue.length > 3) {
+                    formatted = `${first}-${second}`;
+                } else {
+                    formatted = first;
+                }
+            }
+            
+            this.value = formatted;
+        });
+    }
+
+    setupSSNField('ssn');
+    setupSSNField('coApplicantSsn');
+    // -------------------------
+
+    // --- Phone Masking Logic ---
+    function setupPhoneField(inputId) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+
+        input.addEventListener('input', function(e) {
+            let x = this.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+            this.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        });
+    }
+
+    setupPhoneField('homePhone');
+    setupPhoneField('workPhone');
+    setupPhoneField('cellPhone');
+    setupPhoneField('supervisorPhone');
+    setupPhoneField('ownerPhone');
+    // ---------------------------
+
+    // --- Date of Birth Masking Logic ---
+    function setupDateField(inputId) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+
+        input.addEventListener('input', function(e) {
+            let x = this.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,2})(\d{0,4})/);
+            if (!x[2]) {
+                this.value = x[1];
+            } else if (!x[3]) {
+                this.value = x[1] + '-' + x[2];
+            } else {
+                this.value = x[1] + '-' + x[2] + '-' + x[3];
+            }
+        });
+    }
+
+    setupDateField('dob');
+    setupDateField('coApplicantDob');
+    setupDateField('moveInDate');
+    setupDateField('signatureDate');
+    setupDateField('authApplicantDate');
+    setupDateField('authCoApplicantDate');
+    // -----------------------------------
 });
